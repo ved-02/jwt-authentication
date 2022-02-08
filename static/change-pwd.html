@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>change password</title>
+</head>
+
+<body>
+    <h2>change password</h2>
+    <form action="" method="post" id="change-pwd">
+        <input type="password" name="password" placeholder="password" id="">
+        <button type="submit">change</button>
+    </form>
+    <script>
+        const form = document.getElementById("change-pwd");
+        form.addEventListener("submit", loginUser);
+        async function loginUser(event) {
+            event.preventDefault();
+            const password = form.password.value;
+            const result = await fetch('/api/change-pwd', {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    newPassword: password,
+                    token: localStorage.getItem("token")
+                })
+            }).then((res) => {
+                return res.json();
+            });
+            console.log(result);
+            if (result.status == 'ok') {
+                alert("successfully changed");
+            }
+            else {
+                alert(result.error);
+            }
+        }
+    </script>
+</body>
+
+</html>
